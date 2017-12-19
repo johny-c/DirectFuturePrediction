@@ -30,8 +30,7 @@ class FutureTargetMaker:
             gammas = np.array(args['gammas'])
             self.rwrd_schedules = np.power(np.reshape(gammas, (-1,1)), np.reshape(np.arange(self.future_steps[-1]), (1,-1)))
         else:
-            print('Unknown rwrd_schedule_type', self.rwrd_schedule_type)
-            raise
+            raise('Unknown rwrd_schedule_type', self.rwrd_schedule_type)
         
         self.num_reward_targets = self.rwrd_schedules.shape[0]
         self.num_targets = len(self.meas_to_predict) + self.num_reward_targets
@@ -75,7 +74,7 @@ class FutureTargetMaker:
             elif self.invalid_targets_replacement == 'last_valid':
                 targets[ns, :len(self.meas_to_predict), invalid_samples] = targets[ns, :len(self.meas_to_predict), np.argmax(invalid_samples)-1] # make invalid the entries which fall into the following episodes
             else:
-                raise ArgumentException('Unknown invalid_targets_replacement')
+                raise Exception('Unknown invalid_targets_replacement')
             
             # reward targets
             curr_future_window = np.arange(sample+1,sample+self.future_steps[-1]+1) % capacity
@@ -86,7 +85,3 @@ class FutureTargetMaker:
             targets[ns, len(self.meas_to_predict):, :] = rwrds_cumsum[:,self.future_steps - 1]
             
         return np.reshape(targets, (len(indices), self.target_dim))
-        
-        
-        
-        

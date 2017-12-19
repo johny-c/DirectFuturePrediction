@@ -5,8 +5,8 @@ from __future__ import print_function
 import sys
 import os
 
-vizdoom_path = '../../../../toolboxes/ViZDoom_2017_03_31'
-sys.path = [os.path.join(vizdoom_path,'bin/python3')] + sys.path
+# from .constants import VIZDOOM_PATH
+# sys.path = [os.path.join(VIZDOOM_PATH, 'bin/python3')] + sys.path
 
 import vizdoom 
 print(vizdoom.__file__)
@@ -15,6 +15,7 @@ import time
 import numpy as np
 import re
 import cv2
+
 
 class DoomSimulator:
     
@@ -28,8 +29,8 @@ class DoomSimulator:
         self.game_args = args['game_args']
         
         self._game = vizdoom.DoomGame()
-        self._game.set_vizdoom_path(os.path.join(vizdoom_path,'bin/vizdoom'))
-        self._game.set_doom_game_path(os.path.join(vizdoom_path,'bin/freedoom2.wad'))
+        # self._game.set_vizdoom_path(os.path.join(VIZDOOM_PATH, 'bin/vizdoom'))
+        # self._game.set_doom_game_path(os.path.join(VIZDOOM_PATH, 'bin/freedoom2.wad'))
         self._game.load_config(self.config)
         self._game.add_game_args(self.game_args)
         self.curr_map = 0
@@ -41,7 +42,8 @@ class DoomSimulator:
             self.resize = False
         except:
             print("Requested resolution not supported:", sys.exc_info()[0], ". Setting to 160x120 and resizing")
-            self._game.set_screen_resolution(getattr(vizdoom.ScreenResolution, 'RES_160X120'))
+            # self._game.set_screen_resolution(getattr(vizdoom.ScreenResolution, 'RES_160X120'))
+            self._game.set_screen_resolution(vizdoom.ScreenResolution.RES_160X120)
             self.resize = True
 
         # set color mode
@@ -52,8 +54,7 @@ class DoomSimulator:
             self._game.set_screen_format(vizdoom.ScreenFormat.GRAY8)
             self.num_channels = 1
         else:
-            print("Unknown color mode")
-            raise
+            raise ValueError("Unknown color mode")
 
         self.available_controls, self.continuous_controls, self.discrete_controls = self.analyze_controls(self.config)
         self.num_buttons = self._game.get_available_buttons_size()

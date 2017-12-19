@@ -10,6 +10,7 @@ import os
 import re
 from .agent import Agent
 
+
 class FuturePredictorAgentAdvantage(Agent):
     
     def make_net(self, input_images, input_measurements, input_actions, input_objectives, reuse=False):
@@ -88,4 +89,3 @@ class FuturePredictorAgentAdvantage(Agent):
         
         curr_action = np.argmax(self.curr_objectives, axis=1)
         return curr_action
-        

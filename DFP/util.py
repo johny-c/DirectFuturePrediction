@@ -6,10 +6,12 @@ import operator
 import matplotlib.pyplot as plt
 import json
 
+
 def make_objective_indices_and_coeffs(temporal_coeffs, meas_coeffs):
     objective_coeffs = (np.reshape(temporal_coeffs, (1,-1)) * np.reshape(meas_coeffs, (-1,1))).flatten()
     objective_indices = np.where(np.abs(objective_coeffs) > 1e-8)[0]
     return objective_indices, objective_coeffs[objective_indices]
+
 
 def make_array(shape=(1,), dtype=np.float32, shared=False, fill_val=None):  
     np_type_to_ctype = {np.float32: ctypes.c_float,
@@ -31,14 +33,17 @@ def make_array(shape=(1,), dtype=np.float32, shared=False, fill_val=None):
     
     return np_arr
 
+
 def merge_two_dicts(x, y):
     '''Given two dicts, merge them into a new dict as a shallow copy.'''
     z = x.copy()
     z.update(y)
     return z
 
+
 def binary_subset(n, indices):
     return int(''.join(operator.itemgetter(*indices)(bin(n)[2:])), 2)
+
 
 def binary_superset(n, indices):
     superset = np.zeros(max(indices)+1, dtype=int)
@@ -46,6 +51,7 @@ def binary_superset(n, indices):
     superset[indices] = list(bin(n)[2:])
     print(superset)
     return int(np.array_str(superset)[1:-1:2], 2)
+
 
 class StackedBarPlot:
     def __init__(self, data, nfig=17, labels=[], ylim=[]):
@@ -97,7 +103,8 @@ class StackedBarPlot:
             assert(len(labels) == data.shape[1])
             self.labels = labels
             self.ax.set_xticklabels(self.labels)
-            
+
+
 # modification which returns a string object instead of Unicode
 # http://stackoverflow.com/a/33571117
 def json_load_byteified(file_handle):
@@ -106,11 +113,13 @@ def json_load_byteified(file_handle):
         ignore_dicts=True
     )
 
+
 def json_loads_byteified(json_text):
     return _byteify(
         json.loads(json_text, object_hook=_byteify),
         ignore_dicts=True
     )
+
 
 def _byteify(data, ignore_dicts = False):
     # if this is a unicode string, return its string representation

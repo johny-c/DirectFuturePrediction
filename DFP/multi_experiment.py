@@ -14,6 +14,7 @@ import shutil
 
 ### Experiment with multi-head experience
 
+
 class MultiExperiment:
 
     def __init__(self, target_maker_args={}, 
@@ -124,7 +125,3 @@ class MultiExperiment:
             self.ag.train(self.multi_simulator, self.train_experience, self.num_train_iterations, test_policy_experience=self.test_policy_experience)
         else:
             print('Unknown mode', mode)
-        
-        
-        
-        

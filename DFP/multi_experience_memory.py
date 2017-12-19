@@ -11,6 +11,7 @@ import time
 import os
 from . import util as my_util
 
+
 class MultiExperienceMemory:
 
     def __init__(self, args, multi_simulator = None, target_maker = None):
@@ -361,9 +362,3 @@ class MultiExperienceMemory:
             if inp == 'q' or inp == 'quit' or inp == 'exit':
                 break
             ns += 1
-            
-
-        
-        
-        
-        

@@ -11,6 +11,7 @@ import re
 import itertools as it
 from . import util as my_util
 
+
 class Agent:
 
     def __init__(self, sess, args):
@@ -186,8 +187,7 @@ class Agent:
         elif self.optimizer == 'SGD':
             self.tf_optim = tf.train.GradientDescentOptimizer(self.tf_learning_rate)
         else:
-            print('Unknown optimizer', self.optimizer)
-            raise
+            raise ValueError('Unknown optimizer', self.optimizer)
         
         if not hasattr(self, 't_vars'):
             self.t_vars = tf.trainable_variables()
@@ -426,5 +426,3 @@ class Agent:
             return True
         else:
             return False
-        
-        
